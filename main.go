@@ -1,0 +1,5 @@
+package functor
+
+func main() {
+
+}
