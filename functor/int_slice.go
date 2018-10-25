@@ -38,7 +38,7 @@ func (isf intSliceFunctorImpl) Map(fn func(int) int) IntSliceFunctor {
 		isf.ints = serialIntMapper(isf.ints, fn)
 		return isf
 	}
-	isf.ints = parallelIntMapper(isf.ints, fn)
+	isf.ints = concurrentIntMapper(isf.ints, fn)
 	return isf
 }
 
@@ -62,19 +62,19 @@ func serialIntMapper(ints []int, fn func(int) int) []int {
 }
 
 // Parallel Constructs
-type parallelIntMapperResult struct {
+type concurrentIntMappeResult struct {
 	idx int
 	val int
 }
 
-func parallelIntMapper(ints []int, fn func(int) int) []int {
-	ch := make(chan parallelIntMapperResult)
+func concurrentIntMapper(ints []int, fn func(int) int) []int {
+	ch := make(chan concurrentIntMappeResult)
 	var wg sync.WaitGroup
 	for i, elt := range ints {
 		wg.Add(1)
 		go func(idx int, elt int) {
 			defer wg.Done()
-			ch <- parallelIntMapperResult{idx: idx, val: fn(elt)}
+			ch <- concurrentIntMappeResult{idx: idx, val: fn(elt)}
 		}(i, elt)
 	}
 	go func() {

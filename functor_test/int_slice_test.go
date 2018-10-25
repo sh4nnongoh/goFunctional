@@ -40,33 +40,23 @@ func ExampleIntSliceFunctor_Map() {
 	// Output: Equal
 }
 
-// Test Helper Functions
-func intSlice(numInts int) []int {
-	slice := make([]int, numInts)
-	for i := 0; i < numInts; i++ {
-		slice[i] = i + 5
+func ExampleIntSliceFunctor_Ints() {
+	ints := []int{0, 1, 2, 3, 4}
+	functor := LiftIntSlice(ints)
+	functorInts := functor.Ints()
+	for i := range ints {
+		if ints[i] != functorInts[i] {
+			fmt.Println("Not Equal")
+			return
+		}
 	}
-	return slice
+	fmt.Println("Equal")
+	// Output: Equal
 }
 
-func plusOne(i int) int {
-	return i + 1
-}
-
-func minusOne(i int) int {
-	return i - 1
-}
-
-// Example Tests Functions
-func ExampleHello() {
-	fmt.Println("hello")
-	// Output: hello
-}
-
-func ExampleSalutations() {
-	fmt.Println("hello, and")
-	fmt.Println("goodbye")
-	// Output:
-	// hello, and
-	// goodbye
+func ExampleIntSliceFunctor_String() {
+	ints := []int{0, 1, 2, 3, 4}
+	functor := LiftIntSlice(ints)
+	fmt.Println(functor.String())
+	// Output: []int{0, 1, 2, 3, 4}
 }
